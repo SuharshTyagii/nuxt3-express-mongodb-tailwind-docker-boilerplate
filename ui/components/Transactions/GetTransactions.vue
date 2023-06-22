@@ -101,6 +101,11 @@ export default {
   computed: {
 
   },
+  watch: {
+    transactions(newTransactions, oldTransactions) {
+      this.$event('transactions-updated', newTransactions)
+    }
+  },
   async mounted() {
     const walletInStorage = this.getWalletFromLocalStorage();
     if (walletInStorage) {

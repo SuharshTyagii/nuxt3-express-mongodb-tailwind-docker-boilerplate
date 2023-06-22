@@ -1,6 +1,9 @@
 <template>
   <div>
+    <ExportTransactions :transactions="transactions" />
+
     <GetTransactions />
+
   </div>
 </template>
 
@@ -10,12 +13,18 @@ export default {
   data() {
     return {
       walletId: null,
+      transactions: [],
     };
   },
   mounted() {
+    this.listenerForTransactions()
   },
   methods: {
-
+    listenerForTransactions() {
+      this.$listen('transactions-updated', (data) => {
+        this.transactions = [...data]
+      })
+    }
   },
 };
 </script>
