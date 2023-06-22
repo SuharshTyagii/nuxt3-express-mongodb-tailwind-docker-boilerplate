@@ -4,7 +4,7 @@
       <h1 class="text-3xl font-bold mb-4 text-center">Create a New Wallet</h1>
       <div class="flex flex-col items-center">
         <div class="max-w-lg w-full bg-white rounded-lg shadow-2xl p-6">
-          <form @submit.prevent="createWallet" class="space-y-6 flex flex-col">
+          <div class="space-y-6 flex flex-col">
             <div class="flex flex-col">
               <label for="balance" class="text-gray-700 font-semibold mb-2">Balance</label>
               <div class="relative">
@@ -23,7 +23,7 @@
               class="bg-purple-500 text-white justify-self-center mx-auto py-4 px-8 rounded-md font-semibold hover:bg-purple-800 transition-colors">
               Create Wallet
             </button>
-          </form>
+          </div>
         </div>
       </div>
 
@@ -35,12 +35,6 @@
     </div>
   </div>
 </template>
-
-
-<script setup>
-const runtimeConfig = useRuntimeConfig();
-
-</script>
 
 
 <script>
@@ -61,10 +55,23 @@ export default {
         return;
       }
       if (this.checkEmptyFields()) {
-        await $fetch(this.$config.public.apiBase).then(res => {
-          console.log(res)
+        var data = JSON.stringify({
+          "name": this.name,
+          "balance": this.balance
+        });
+
+        var config = {
+          method: 'post',
+          url: `${this.$config.public.apiBase}/api/wallet/setup`,
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          data: data
+        };
+        await this.$axios(config).then(res => {
+          console.log(res.data)
+          this.walletCreated = false
         })
-        this.walletCreated = true
       }
     },
     clearBalance() {
@@ -97,6 +104,7 @@ export default {
   },
   mounted() {
     this.name = this.generateRandomWalletName();
+    console.log(' i mounted')
   },
 
 };
@@ -104,5 +112,21 @@ export default {
 <style scoped>
 .highlight-field {
   border: 2px solid red;
+}
+
+.animate-tick {
+  animation: tick 1s linear;
+}
+
+@keyframes tick {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 </style>
