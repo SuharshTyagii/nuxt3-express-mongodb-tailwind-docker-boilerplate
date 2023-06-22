@@ -3,7 +3,7 @@
     <h1 class="text-3xl font-bold mb-4 text-center">Hello, GoHighLevel Team!</h1>
     <div class="flex flex-col items-center">
       <div class="my-4 px-6 mx-6">
-        <NuxtLink to="/" class="nav-primary">Homepage</NuxtLink>
+        <NuxtLink to="/" class="nav-primary">Wallet</NuxtLink>
         <NuxtLink to="/transactions" class="nav-primary ml-4">Transactions</NuxtLink>
       </div>
     </div>

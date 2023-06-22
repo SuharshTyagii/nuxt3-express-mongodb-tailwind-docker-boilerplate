@@ -9,9 +9,8 @@
               <label for="balance" class="text-gray-700 font-semibold mb-2">Balance</label>
               <div class="relative">
                 <input type="number" id="balance" v-model="balance" placeholder="Enter balance" max="9000000000000"
-                  ref="balanceField" step="0.0001"
+                  @input="setFourNumDecimal" ref="balanceField" step="0.0001"
                   class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors" />
-
               </div>
             </div>
             <div class="flex flex-col">
@@ -30,9 +29,7 @@
     </div>
 
     <!-- wallet created -->
-    <div v-else>
-      <h1>Created Wallet</h1>
-    </div>
+
   </div>
 </template>
 
@@ -44,7 +41,8 @@ export default {
     return {
       balance: 80,
       name: '',
-      walletCreated: false
+      walletCreated: false,
+      wallet: null,
     };
   },
   methods: {
@@ -55,12 +53,13 @@ export default {
         return;
       }
       if (this.checkEmptyFields()) {
-        var data = JSON.stringify({
+        const data = JSON.stringify({
           "name": this.name,
           "balance": this.balance
         });
+        console.log('daata', data)
 
-        var config = {
+        const config = {
           method: 'post',
           url: `${this.$config.public.apiBase}/api/wallet/setup`,
           headers: {
@@ -70,13 +69,16 @@ export default {
         };
         await this.$axios(config).then(res => {
           console.log(res.data)
-          this.walletCreated = false
+          this.walletCreated = true
+          this.wallet = res.data
+          this.$event('wallet-created', this.wallet)
         })
       }
     },
     clearBalance() {
       this.balance = null;
     },
+
     checkEmptyFields() {
       if (!this.balance) {
         this.$refs.balanceField.classList.add('highlight-field');
@@ -95,16 +97,22 @@ export default {
 
     },
     generateRandomWalletName() {
-      const nouns = ['Wallet', 'Purse', 'Cash', 'Money', 'Treasure', 'Safe', 'Vault', 'Coffer', 'Fortune', 'Bank'];
+      const nouns = ['Money', 'Treasure', 'Vault', 'Bank'];
       const randomNounIndex = Math.floor(Math.random() * nouns.length);
       const randomNoun = nouns[randomNounIndex];
 
       return `Wallet_${randomNoun}`;
+    },
+    setFourNumDecimal(event) {
+      const inputValue = event.target.value;
+      const decimalIndex = inputValue.indexOf('.');
+      if (decimalIndex !== -1 && inputValue.length - decimalIndex > 5) {
+        this.balance = Math.round(inputValue * 10000) / 10000;
+      }
     }
   },
-  mounted() {
+  created() {
     this.name = this.generateRandomWalletName();
-    console.log(' i mounted')
   },
 
 };
@@ -112,21 +120,5 @@ export default {
 <style scoped>
 .highlight-field {
   border: 2px solid red;
-}
-
-.animate-tick {
-  animation: tick 1s linear;
-}
-
-@keyframes tick {
-  0% {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
 }
 </style>
