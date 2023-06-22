@@ -50,4 +50,8 @@ export default {
 .nav-primary.router-link-exact-active:before {
   transform: scaleX(1);
 }
+
+.highlight-field {
+  border: 2px solid red;
+}
 </style>

@@ -1,8 +1,8 @@
 <template>
   <div class="mx-auto max-w-md py-12 shadow-2xl flex flex-col items-center">
-    <h1 class="text-2xl font-semibold mb-4">Make Transaction</h1>
+    <h1 class="text-2xl font-semibold p-4 text-gray-700 ">Make Transactions</h1>
 
-    <div class="max-w-md mx-auto bg-white rounded-md  p-6">
+    <div class="max-w-md mx-auto bg-white rounded-md  p-6 flex flex-col">
       <div class="mb-4">
         <label for="walletId" class="block text-gray-700 font-semibold mb-2">Wallet ID:</label>
         <input type="text" id="walletId" :value="walletId" disabled="disabled"
@@ -11,13 +11,13 @@
 
       <div class="mb-4">
         <label for="amount" class="block text-gray-700 font-semibold mb-2">Amount:</label>
-        <input type="number" id="amount" v-model="amount" @input="setFourNumDecimal" step="0.0001"
+        <input type="number" id="amount" v-model="amount" @input="setFourNumDecimal" step="0.0001" ref="amountField"
           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
       </div>
 
       <div class="mb-4">
         <label for="description" class="block text-gray-700 font-semibold mb-2">Description:</label>
-        <input type="text" id="description" v-model="description"
+        <input type="text" id="description" v-model="description" ref="descriptionField" max="100"
           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
       </div>
 
@@ -42,6 +42,9 @@ export default {
   },
   methods: {
     async makeTransaction() {
+      if (!this.checkEmptyFields()) {
+        return
+      }
       const data = JSON.stringify({
         "amount": this.amount,
         "description": this.description
@@ -60,7 +63,7 @@ export default {
         console.log(res.data)
         // this.wallet = res.data
         this.$event('made-transaction', res.data)
-        this.amount = null;
+        // this.amount = null;
         this.description = this.pickRandomDescription();
       })
 
@@ -75,12 +78,30 @@ export default {
     pickRandomDescription() {
       const items = ['Apple', 'Orange', 'Grapes', 'Hat', 'Sunglasses', 'Bag', 'Watch'];
       return `For ${items[Math.floor(Math.random() * items.length)]}`
+    },
+
+    checkEmptyFields() {
+      if (!this.amount) {
+        this.$refs.amountField.classList.add('highlight-field');
+        return false;
+      }
+      else if (!this.description) {
+        this.$refs.descriptionField.classList.add('highlight-field');
+        return false;
+      }
+      else if (this.amount && this.description) {
+        this.$refs.amountField.classList.remove('highlight-field');
+        this.$refs.descriptionField.classList.remove('highlight-field');
+        return true;
+      }
     }
 
   },
 };
 </script>
 
-<style>
-/* Add any custom styles here */
+<style scoped>
+.highlight-field {
+  border: 2px solid red;
+}
 </style>

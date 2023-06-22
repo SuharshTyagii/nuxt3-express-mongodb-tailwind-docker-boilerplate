@@ -47,7 +47,7 @@ export default {
     },
     updateWalletInLocalStorage(wallet) {
       const storedWallet = JSON.parse(localStorage.getItem('wallet'))
-      if (storedWallet && storedWallet.id === wallet.id) {
+      if (storedWallet && storedWallet.id === wallet.walletId) {
         storedWallet.balance = wallet.balance
         localStorage.setItem('wallet', JSON.stringify(storedWallet))
       }

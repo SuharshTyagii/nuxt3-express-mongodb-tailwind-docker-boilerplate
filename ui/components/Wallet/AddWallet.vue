@@ -40,7 +40,7 @@ export default {
   data() {
     return {
       balance: 80,
-      name: '',
+      name: null,
       walletCreated: false,
       wallet: null,
     };
@@ -52,28 +52,30 @@ export default {
         alert('Total balance must be less than 1 trillion.');
         return;
       }
-      if (this.checkEmptyFields()) {
-        const data = JSON.stringify({
-          "name": this.name,
-          "balance": this.balance
-        });
-        console.log('daata', data)
-
-        const config = {
-          method: 'post',
-          url: `${this.$config.public.apiBase}/api/wallet/setup`,
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          data: data
-        };
-        await this.$axios(config).then(res => {
-          console.log(res.data)
-          this.walletCreated = true
-          this.wallet = res.data
-          this.$event('wallet-created', this.wallet)
-        })
+      if (!this.checkEmptyFields()) {
+        return
       }
+      const data = JSON.stringify({
+        "name": this.name,
+        "balance": this.balance
+      });
+      console.log('daata', data)
+
+      const config = {
+        method: 'post',
+        url: `${this.$config.public.apiBase}/api/wallet/setup`,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        data: data
+      };
+      await this.$axios(config).then(res => {
+        console.log(res.data)
+        this.walletCreated = true
+        this.wallet = res.data
+        this.$event('wallet-created', this.wallet)
+      })
+
     },
     clearBalance() {
       this.balance = null;
@@ -111,9 +113,7 @@ export default {
       }
     }
   },
-  created() {
-    this.name = this.generateRandomWalletName();
-  },
+
 
 };
 </script>
