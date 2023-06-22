@@ -1,0 +1,198 @@
+openapi: 3.0.0
+info:
+  title: Wallet Controller API
+  description: API documentation for wallet-related operations
+  version: 1.0.0
+paths:
+  /api/wallet/setup:
+    post:
+      summary: Set up a new wallet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                balance:
+                  type: number
+                  description: The initial balance of the wallet
+                  example: 100
+                name:
+                  type: string
+                  description: The name of the wallet
+                  example: Wallet A
+              required:
+                - balance
+                - name
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: The ID of the created wallet
+                  balance:
+                    type: number
+                    description: The balance of the wallet
+                  name:
+                    type: string
+                    description: The name of the wallet
+                  date:
+                    type: string
+                    format: date-time
+                    description: The creation date of the wallet
+        "500":
+          description: Internal Server Error
+
+  /api/wallet/{id}:
+    get:
+      summary: Get a wallet by ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The ID of the wallet
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Wallet"
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+  /api/transact/{walletId}:
+    post:
+      summary: Handle a transaction for a wallet
+      parameters:
+        - in: path
+          name: walletId
+          schema:
+            type: string
+          required: true
+          description: The ID of the wallet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                amount:
+                  type: number
+                  description: The amount of the transaction
+                  example: 20
+                description:
+                  type: string
+                  description: The description of the transaction
+                  example: Recharge of 20 units
+              required:
+                - amount
+                - description
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Transaction"
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+  /api/transactions:
+    get:
+      summary: Get transactions for a wallet
+      parameters:
+        - in: query
+          name: walletId
+          schema:
+            type: string
+          required: true
+          description: The ID of the wallet
+        - in: query
+          name: skip
+          schema:
+            type: number
+          description: The number of transactions to skip (pagination)
+        - in: query
+          name: limit
+          schema:
+            type: number
+          description: The maximum number of transactions to return (pagination)
+        - in: query
+          name: orderBy
+          schema:
+            type: string
+            enum: [newest, oldest, increasing, decreasing]
+          description: The order in which the transactions should be sorted
+        - in: query
+          name: type
+          schema:
+            type: string
+            enum: [DEBIT, CREDIT]
+          description: The type of transactions to filter (DEBIT, CREDIT)
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Transaction"
+        "500":
+          description: Internal Server Error
+components:
+  schemas:
+    Wallet:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: The ID of the wallet
+        balance:
+          type: number
+          description: The balance of the wallet
+        name:
+          type: string
+          description: The name of the wallet
+        date:
+          type: string
+          format: date-time
+          description: The creation date of the wallet
+    Transaction:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: The ID of the transaction
+        walletId:
+          type: string
+          description: The ID of the associated wallet
+        amount:
+          type: number
+          description: The amount of the transaction
+        description:
+          type: string
+          description: The description of the transaction
+        type:
+          type: string
+          enum: [DEBIT, CREDIT]
+          description: The type of the transaction (DEBIT, CREDIT)
+        balance:
+          type: number
+          description: The new balance after the transaction
+        date:
+          type: string
+          format: date-time
+          description: The date of the transaction
