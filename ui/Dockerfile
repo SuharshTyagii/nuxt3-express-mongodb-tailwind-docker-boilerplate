@@ -1,4 +1,9 @@
 FROM node:18.16.0 AS frontend
+
+ARG API_BASE
+ENV API_BASE ${API_BASE}
+RUN echo ${API_BASE}
+
 WORKDIR /usr/src/app/ui
 COPY package*.json ./
 RUN npm install 

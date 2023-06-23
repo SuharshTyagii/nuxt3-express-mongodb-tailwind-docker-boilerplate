@@ -26,12 +26,14 @@ services:
   ui:
     container_name: ui_highlevel
     build:
+      args:
+        API_BASE: "${API_BASE}"
       dockerfile: Dockerfile
       context: ./ui
     ports:
       - 3001:3001
-    environment:
-      API_BASE: ${API_BASE_URL:-http://api:8082}
+      # environment:
+      # API_BASE: "${API_BASE}"
     depends_on:
       - mongo_db
       - api
