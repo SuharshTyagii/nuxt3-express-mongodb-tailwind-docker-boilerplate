@@ -24,6 +24,7 @@ cd server && npm run start
 
 
 (**Documentation via Swagger is also available at `http://localhost:8082/api-docs` if the server is running.**)
+**On prod server, its also made to be available for now at `http://68.183.81.108:8082/api-docs/`**
 ---------------------
 You can also download Postman configuration from (here)
 

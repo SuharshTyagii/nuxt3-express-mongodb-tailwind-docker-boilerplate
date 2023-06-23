@@ -25,7 +25,9 @@ docker compose up --build
 # Features:-
 - Built with MongoDB, NodeJS(Express) and Nuxt 3.
 - Completely containerized application with the ability to deploy via one line of code on any remote servers.
-- 3 seperate containers for MongoDB server, backend, and UI.
+- Seperate containers for MongoDB server, backend, and UI.
+- Complete Documentation for the API via Swagger at `http://68.183.81.108:8082/api-docs/` or (http://localhost:8082/api-docs/) if running locally
+- Wallet is stored into localStorage when created.
 
 
 ## Non-docker based local setup:-
