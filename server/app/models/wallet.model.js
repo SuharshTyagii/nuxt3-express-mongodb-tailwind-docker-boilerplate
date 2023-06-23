@@ -20,12 +20,17 @@ module.exports = mongoose => {
 
   walletSchema.method("toJSON", function () {
     const { __v, _id, createdAt, balance, amount, updatedAt, ...object } = this.toObject();
-    return {
+    const transformedObject = {
       id: _id,
-      amount: Number(amount.toFixed(4)),
       balance: Number(balance.toFixed(4)),
       ...object
     };
+
+    if (amount !== undefined) {
+      transformedObject.amount = Number(amount.toFixed(4));
+    }
+
+    return transformedObject;
 
   });
 

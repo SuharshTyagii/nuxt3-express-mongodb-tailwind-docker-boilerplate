@@ -59,7 +59,6 @@ export default {
         "name": this.name,
         "balance": this.balance
       });
-      console.log('daata', data)
 
       const config = {
         method: 'post',
@@ -70,11 +69,13 @@ export default {
         data: data
       };
       await this.$axios(config).then(res => {
-        console.log(res.data)
         this.walletCreated = true
         this.wallet = res.data
         this.$event('wallet-created', this.wallet)
-      })
+      }).
+        catch(err => {
+          alert(err.response.data.error)
+        })
 
     },
     clearBalance() {

@@ -1,8 +1,8 @@
 <template>
   <div>
-    <AddWallet v-if="!walletCreated" />
-    <WalletDetails v-if="walletCreated" :wallet="wallet" :walletBalance="walletBalance" />
-    <MakeTransaction v-if="walletCreated" :walletId="wallet.id" />
+    <AddWallet v-if="!walletCreated" :key="walletCreated" />
+    <WalletDetails v-if="walletCreated" key="walletCreated" :wallet="wallet" :walletBalance="walletBalance" />
+    <MakeTransaction v-if="walletCreated" key="walletCreated" :walletId="wallet.id" />
   </div>
 </template>
 

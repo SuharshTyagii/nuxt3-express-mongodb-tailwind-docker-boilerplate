@@ -37,9 +37,7 @@ export default {
     };
   },
   props: ['walletId'],
-  mounted() {
-    console.log('wallet id', this.walletId)
-  },
+
   methods: {
     async makeTransaction() {
       if (!this.checkEmptyFields()) {
@@ -65,6 +63,9 @@ export default {
         this.$event('made-transaction', res.data)
         // this.amount = null;
         this.description = this.pickRandomDescription();
+      }).catch(err => {
+        console.log('error', err)
+        alert(err.response.data.error)
       })
 
     },

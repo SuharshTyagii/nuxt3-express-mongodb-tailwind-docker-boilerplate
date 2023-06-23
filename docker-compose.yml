@@ -32,8 +32,6 @@ services:
       context: ./ui
     ports:
       - 3001:3001
-      # environment:
-      # API_BASE: "${API_BASE}"
     depends_on:
       - mongo_db
       - api

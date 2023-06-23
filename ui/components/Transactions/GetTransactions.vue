@@ -2,7 +2,13 @@
   <div>
     <!-- Incase the wallet is not initialized yet -->
     <div v-if="!walletId" class=" mx-auto py-8 max-w-md flex flex-col">
-      <span>Please initialize a <a href="/" class="underline text-purple-600">wallet</a> first!</span>
+      <span>Please initialize a <a href="/" class="underline text-purple-600">wallet</a> </span>
+      <div class="flex flex-row space-x-2 items-center py-2">
+        <span>Or enter a Wallet ID: </span><input class="py-2 focus:bg-purple-200 bg-purple-100" type="text"
+          v-model="userWalletId">
+        <button @click="findwalletId" class="px-4 py-2 rounded-sm bg-purple-200">Find</button>
+
+      </div>
     </div>
 
     <!-- Main component -->
@@ -88,6 +94,7 @@ export default {
   data() {
     return {
       walletId: null,
+      userWalletId: null,
       transactions: [],
       type: 'all',
       skip: 0,
@@ -129,7 +136,12 @@ export default {
         headers: {}
       };
       const transactions = await this.$axios(config).then(res => {
+        if (res.data.length === 0) {
+          alert("No more transactions are available")
+        }
         return res.data
+      }).catch(err => {
+        console.log(err.response)
       })
       return transactions;
     },
@@ -159,7 +171,6 @@ export default {
       }
       await this.fetchTransactions()
         .then((newTransactions) => {
-          console.log('new transactions', newTransactions)
           if (newTransactions.length) {
             this.transactions = [...this.transactions, ...newTransactions];
           }
@@ -190,6 +201,27 @@ export default {
         this.skip = 0
         this.transactions = await this.fetchTransactions();
       }
+
+    },
+
+    async findwalletId() {
+      const config = {
+        method: 'get',
+        url: `${this.$config.public.apiBase}/api/wallet/${this.userWalletId}`,
+        headers: {}
+      };
+
+      await this.$axios(config)
+        .then(res => {
+          this.$event('wallet-created', res.data)
+          this.$nextTick(() => {
+            this.$router.push('/');
+          });
+        })
+        .catch(function (error) {
+          alert("No wallet is associated with that wallet ID")
+          console.log(error);
+        });
 
     },
     formatTime(time) {

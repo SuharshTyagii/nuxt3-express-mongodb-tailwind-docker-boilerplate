@@ -62,7 +62,6 @@ exports.setupWallet = (req, res) => {
  */
 exports.findOne = (req, res) => {
   const id = req.params.id;
-
   Wallet.findById(id)
     .then(data => {
       if (!data)
@@ -70,6 +69,7 @@ exports.findOne = (req, res) => {
       else res.send(data);
     })
     .catch(err => {
+      console.log(err)
       res
         .status(500)
         .send({ message: "Error retrieving Wallet with id=" + id });
@@ -83,11 +83,8 @@ exports.findOne = (req, res) => {
  * @param {Object} res - The response object.
  */
 exports.transactionHandler = async (req, res) => {
-  console.log('transastion handler hit')
   const walletId = req.params.walletId;
-  // console.log('params', req.params)
 
-  console.log('walletid0', walletId)
   let { amount, description } = req.body;
 
   try {
