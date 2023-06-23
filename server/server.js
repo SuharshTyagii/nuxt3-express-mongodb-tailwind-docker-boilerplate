@@ -6,9 +6,9 @@ const PORT = process.env.PORT || 8082;
 const swaggerUi = require('swagger-ui-express');
 const YAML = require('yamljs');
 const swaggerDocument = YAML.load('./swagger.yaml');
-
-var corsOptions = {
-  origin: "http://localhost:3001"
+require("dotenv").config()
+const corsOptions = {
+  origin: "*"
 };
 
 app.use(cors(corsOptions));

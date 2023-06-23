@@ -31,7 +31,7 @@ services:
     ports:
       - 3001:3001
     environment:
-      API_BASE: http://api:8082
+      API_BASE: ${API_BASE_URL:-http://api:8082}
     depends_on:
       - mongo_db
       - api
