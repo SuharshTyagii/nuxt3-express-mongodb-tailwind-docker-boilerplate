@@ -1,6 +1,6 @@
-FROM node:alpine
-WORKDIR /usr/src/server
-COPY package*.json .
-RUN npm ci
+FROM node:18.16.0 AS backend
+WORKDIR /usr/src/app
+COPY package*.json ./
+RUN npm install
 COPY . .
-CMD ["npm", "start"]
+CMD ["npm", "run", "start"]

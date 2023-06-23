@@ -1,0 +1,11 @@
+**/node_modules/
+**/.git
+**/*docker-compose*
+**/*Dockerfile*
+**/.nuxt/
+**/.output/
+**/.vscode/
+**/dist/
+**/obj/
+**/package-lock.json
+**/*.esproj

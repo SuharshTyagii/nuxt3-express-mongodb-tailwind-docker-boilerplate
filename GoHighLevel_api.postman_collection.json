@@ -1,0 +1,421 @@
+{
+	"info": {
+		"_postman_id": "88415972-f4ad-4274-9e8c-5841b9eb65d6",
+		"name": "GoHighLevel Assignment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4049036"
+	},
+	"item": [
+		{
+			"name": "/",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082"
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Setup a wallet",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsonData = pm.response.json();\r",
+							"const walletId = jsonData.id;\r",
+							"\r",
+							"// Set global variable\r",
+							"pm.globals.set('wallet_id', walletId);\r",
+							"\r",
+							"// Set local variable\r",
+							"pm.variables.set('wallet_id', walletId);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const randomName = \"Wallet_\" + Math.random().toString(36).substring(2, 15);\r",
+							"pm.variables.set('wallet_name', randomName);\r",
+							"pm.globals.set('wallet_name', randomName);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{wallet_name}}\",\r\n    \"balance\": 100\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/wallet/setup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"wallet",
+						"setup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a wallet",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/api/wallet/{{wallet_id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"wallet",
+						"{{wallet_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Make a debit",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const items = ['Apple', 'Banana', 'Orange', 'Grapes', 'Hat', 'Sunglasses', 'Bag', 'Watch'];\r",
+							"\r",
+							"const randomItem = items[Math.floor(Math.random() * items.length)];\r",
+							"\r",
+							"pm.variables.set('buy_things', randomItem);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"amount\": -9.6,\r\n    \"description\": \"Bought {{buy_things}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/transact/{{wallet_id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"transact",
+						"{{wallet_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Make a  credit",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"amount\": 3.4,\r\n    \"description\": \"recharge my wallet\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/transact/{{wallet_id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"transact",
+						"{{wallet_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get transactions (newest by default)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/api/transactions?walletId={{wallet_id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"transactions"
+					],
+					"query": [
+						{
+							"key": "walletId",
+							"value": "{{wallet_id}}"
+						},
+						{
+							"key": "orderBy",
+							"value": "newest",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get transactions (oldest first)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/api/transactions?walletId={{wallet_id}}&orderBy=oldest",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"transactions"
+					],
+					"query": [
+						{
+							"key": "walletId",
+							"value": "{{wallet_id}}"
+						},
+						{
+							"key": "orderBy",
+							"value": "oldest"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get transactions (max to least amount)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/api/transactions?walletId={{wallet_id}}&orderBy=decreasing",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"transactions"
+					],
+					"query": [
+						{
+							"key": "walletId",
+							"value": "{{wallet_id}}"
+						},
+						{
+							"key": "orderBy",
+							"value": "decreasing"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get transactions (least to max amount)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/api/transactions?walletId={{wallet_id}}&orderBy=increasing",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"transactions"
+					],
+					"query": [
+						{
+							"key": "walletId",
+							"value": "{{wallet_id}}"
+						},
+						{
+							"key": "orderBy",
+							"value": "increasing"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get transactions (only DEBIT)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/api/transactions?walletId={{wallet_id}}&orderBy=decreasing&type=DEBIT",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"transactions"
+					],
+					"query": [
+						{
+							"key": "walletId",
+							"value": "{{wallet_id}}"
+						},
+						{
+							"key": "orderBy",
+							"value": "decreasing"
+						},
+						{
+							"key": "type",
+							"value": "DEBIT"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get transactions (only CREDIT)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/api/transactions?walletId={{wallet_id}}&orderBy=newest&type=CREDIT",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"transactions"
+					],
+					"query": [
+						{
+							"key": "walletId",
+							"value": "{{wallet_id}}"
+						},
+						{
+							"key": "orderBy",
+							"value": "newest"
+						},
+						{
+							"key": "type",
+							"value": "CREDIT"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get transactions 10 - 20",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/api/transactions?walletId={{wallet_id}}&skip=10&limit=10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"transactions"
+					],
+					"query": [
+						{
+							"key": "walletId",
+							"value": "{{wallet_id}}"
+						},
+						{
+							"key": "skip",
+							"value": "10"
+						},
+						{
+							"key": "limit",
+							"value": "10"
+						},
+						{
+							"key": "orderBy",
+							"value": "decreasing",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
