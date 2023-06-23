@@ -1,5 +1,5 @@
 FROM node:alpine
-WORKDIR /usr/src/app
+WORKDIR /usr/src/server
 COPY package*.json .
 RUN npm ci
 COPY . .

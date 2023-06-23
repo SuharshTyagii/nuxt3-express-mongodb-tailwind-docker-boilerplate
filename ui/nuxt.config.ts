@@ -9,10 +9,13 @@ export default defineNuxtConfig({
       apiBase: process.env.API_BASE || "http://localhost:8082"
     }
   },
+  devServer: {
+    port: 3001
+  },
   components: [
     { path: '~/components/Wallet' },
     { path: '~/components/Transactions' },
 
   ],
-  devtools: { enabled: true }
+  devtools: { enabled: process.env.DEVTOOLS_ENABLED || true }
 })

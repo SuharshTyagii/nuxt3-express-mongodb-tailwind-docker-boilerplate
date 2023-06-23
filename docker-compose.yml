@@ -1,0 +1,44 @@
+version: '3.9'
+
+services:
+  mongo_db:
+    container_name: mongodb_container_highlevel
+    image: mongo:latest
+    restart: always
+    volumes:
+      - mongo_db:/data/db
+
+  # Server API
+  api:
+    container_name: server_highlevel
+    build:
+      dockerfile: Dockerfile
+      context: ./server
+    ports:
+      - 8082:8082
+    volumes:
+      - ./server:/usr/src/server
+    environment:
+      PORT: 8082
+      MONGODB_URI: mongodb://mongo_db:27017
+      MAX_BALANCE: 9900000000000
+    depends_on:
+      - mongo_db
+  # UI
+  ui:
+    container_name: ui_highlevel
+    build:
+      dockerfile: Dockerfile
+      context: ./ui
+    ports:
+      - 3001:3001
+    volumes:
+      - ./ui:/app
+    environment:
+      API_BASE: http://localhost:8082
+    depends_on:
+      - mongo_db
+      - api
+
+volumes:
+  mongo_db: {}
