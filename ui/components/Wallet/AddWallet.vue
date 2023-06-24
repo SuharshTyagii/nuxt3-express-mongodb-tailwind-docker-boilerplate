@@ -1,9 +1,9 @@
 <template>
-  <div class="container mx-auto py-8">
+  <div class="mx-auto py-8">
     <div id="walletBox" v-if="!walletCreated">
       <h1 class="text-3xl font-bold mb-4 text-center">Create a New Wallet</h1>
       <div class="flex flex-col items-center">
-        <div class="max-w-lg w-full bg-white rounded-lg shadow-2xl p-6">
+        <div class="max-w-lg w-full bg-white rounded-lg shadow-xl p-6">
           <div class="space-y-6 flex flex-col">
             <div class="flex flex-col">
               <label for="balance" class="text-gray-700 font-semibold mb-2">Balance</label>
@@ -26,7 +26,34 @@
         </div>
       </div>
 
+
+      <div v-if="!walletCreated" class="flex flex-col">
+        <h1 class="text-3xl font-bold mb-4 text-center pt-6">
+          Or </h1>
+        <span class="text-center font-semibold text-xl">Add an existing wallet</span>
+        <div class="flex flex-col items-center">
+          <div class="max-w-lg w-full bg-white rounded-lg shadow-xl p-6">
+            <div class="space-y-6 flex flex-col">
+              <div class="flex flex-col">
+                <label for="balance" class="text-gray-700 font-semibold mb-2">Wallet ID</label>
+                <div class="relative">
+                  <input id="userInputWalletId" v-model="userInputWalletId" placeholder="Enter the Wallet ID"
+                    maxlength="24" ref="userInputWalletIdField" step="0.0001"
+                    class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors" />
+                </div>
+              </div>
+              <button @click="findwalletId"
+                class="bg-purple-500 text-white justify-self-center mx-auto py-4 px-8 rounded-md font-semibold hover:bg-purple-800 transition-colors">
+                Find Wallet
+              </button>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
     </div>
+
 
     <!-- wallet created -->
 
@@ -43,6 +70,7 @@ export default {
       name: null,
       walletCreated: false,
       wallet: null,
+      userInputWalletId: null,
     };
   },
   methods: {
@@ -112,7 +140,28 @@ export default {
       if (decimalIndex !== -1 && inputValue.length - decimalIndex > 5) {
         this.balance = Math.round(inputValue * 10000) / 10000;
       }
-    }
+    },
+
+    // find wallet
+    async findwalletId() {
+      const config = {
+        method: 'get',
+        url: `${this.$config.public.apiBase}/api/wallet/${this.userInputWalletId}`,
+        headers: {}
+      };
+
+      await this.$axios(config)
+        .then(res => {
+          this.walletCreated = true
+          this.wallet = res.data
+          this.$event('wallet-created', this.wallet)
+        })
+        .catch(function (error) {
+          alert("No wallet is associated with that wallet ID")
+          console.log(error);
+        });
+
+    },
   },
 
 

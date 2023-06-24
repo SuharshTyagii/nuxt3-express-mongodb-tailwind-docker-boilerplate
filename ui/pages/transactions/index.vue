@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ExportTransactions :transactions="transactions" />
+    <ExportTransactions v-if="transactions.length" :transactions="transactions" />
 
     <GetTransactions />
 

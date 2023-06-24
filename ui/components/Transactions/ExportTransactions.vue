@@ -2,7 +2,7 @@
   <div class="mx-auto py-4 max-w-md flex flex-col">
     <button @click="exportToCSV"
       class="flex flex-row place-items-center justify-center items-center bg-purple-200 hover:bg-purple-700 hover:text-white text-black font-bold py-2 px-4 rounded text-center">
-      <span class="mr-2">Download .CSV</span>
+      <span class="mr-2">Export as .CSV</span>
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download"
         viewBox="0 0 16 16">
         <path

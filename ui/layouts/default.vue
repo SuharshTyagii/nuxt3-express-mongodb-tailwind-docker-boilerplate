@@ -1,6 +1,6 @@
 <template>
-  <div class="container mx-auto py-8">
-    <h1 class="text-3xl font-bold mb-4 text-center">Hello, GoHighLevel Team!</h1>
+  <div class="mx-auto py-8">
+    <h1 class="text-3xl font-bold mb-4 text-center">Hello, HighLevel Team!</h1>
     <div class="flex flex-col items-center">
       <div class="my-4 px-6 mx-6">
         <NuxtLink to="/" class="nav-primary">Wallet</NuxtLink>

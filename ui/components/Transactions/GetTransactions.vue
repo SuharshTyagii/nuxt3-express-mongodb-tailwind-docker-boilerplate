@@ -1,19 +1,11 @@
 <template>
   <div>
     <!-- Incase the wallet is not initialized yet -->
-    <div v-if="!walletId" class=" mx-auto py-8 max-w-md flex flex-col">
-      <span>Please initialize a <a href="/" class="underline text-purple-600">wallet</a> </span>
-      <div class="flex flex-row space-x-2 items-center py-2">
-        <span>Or enter a Wallet ID: </span><input class="py-2 focus:bg-purple-200 bg-purple-100" type="text"
-          v-model="userWalletId">
-        <button @click="findwalletId" class="px-4 py-2 rounded-sm bg-purple-200">Find</button>
-
-      </div>
-    </div>
 
     <!-- Main component -->
     <div class="mx-auto py-8 max-w-md">
-      <h1 v-if="!walletId" class="text-3xl font-bold text-gray-700 mb-4 self-center">Please Initialize a Wallet</h1>
+      <h1 v-if="!walletId" class="text-3xl font-bold text-gray-700 mb-4 self-center">Please Initialize a <a href="/"
+          class="underline text-purple-600"> Wallet</a></h1>
       <div v-else class="flex flex-col">
         <h1 class="text-3xl font-bold text-gray-700 mb-4 self-center">Transaction History</h1>
 
@@ -37,19 +29,21 @@
               </svg>
             </div>
           </div>
-          <div>
-            <label class="inline-flex items-center">
-              <input type="checkbox" v-model="showDebit" @change="handleTransactionType"
-                class="form-checkbox text-purple-500">
-              <span class="ml-2 text-gray-600">Debit</span>
-            </label>
-          </div>
-          <div>
-            <label class="inline-flex items-center">
-              <input type="checkbox" v-model="showCredit" @change="handleTransactionType"
-                class="form-checkbox text-purple-500">
-              <span class="ml-2 text-gray-600">Credit</span>
-            </label>
+          <div class="flex sm:flex-row flex-col sm:space-x-2">
+            <div>
+              <label class="inline-flex items-center">
+                <input type="checkbox" v-model="showDebit" @change="handleTransactionType"
+                  class="form-checkbox text-purple-500">
+                <span class="ml-2 text-gray-600">Debit</span>
+              </label>
+            </div>
+            <div>
+              <label class="inline-flex items-center">
+                <input type="checkbox" v-model="showCredit" @change="handleTransactionType"
+                  class="form-checkbox text-purple-500">
+                <span class="ml-2 text-gray-600">Credit</span>
+              </label>
+            </div>
           </div>
         </div>
 
@@ -61,7 +55,7 @@
               <h2 class="text-2xl font-semibold text-purple-700">
                 {{ transaction.amount }}
               </h2>
-              <p class="text-gray-600 mt-2">
+              <p class="text-gray-600 mt-2 sm:text-base text-xs">
                 {{ transaction.description }}
               </p>
             </div>
@@ -174,7 +168,6 @@ export default {
           if (newTransactions.length) {
             this.transactions = [...this.transactions, ...newTransactions];
           }
-          console.log('this transactions after load more', this.transactions)
         })
         .catch((error) => {
           console.error('Error loading more transactions:', error);
@@ -201,27 +194,6 @@ export default {
         this.skip = 0
         this.transactions = await this.fetchTransactions();
       }
-
-    },
-
-    async findwalletId() {
-      const config = {
-        method: 'get',
-        url: `${this.$config.public.apiBase}/api/wallet/${this.userWalletId}`,
-        headers: {}
-      };
-
-      await this.$axios(config)
-        .then(res => {
-          this.$event('wallet-created', res.data)
-          this.$nextTick(() => {
-            this.$router.push('/');
-          });
-        })
-        .catch(function (error) {
-          alert("No wallet is associated with that wallet ID")
-          console.log(error);
-        });
 
     },
     formatTime(time) {
