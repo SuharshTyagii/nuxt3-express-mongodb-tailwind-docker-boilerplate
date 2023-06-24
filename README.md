@@ -5,14 +5,16 @@
 ### Note -- **Make sure to uncomment the API_BASE variable in the .env file of "ui" folder.**
 
 *On Windows*
+
 ```bash
-docker-compose up --build
+API_BASE=http://localhost:8082 docker-compose up --build
 ```
 
 If the above doesn't work, please try
 ```bash
-API_BASE=http://localhost:8082 docker-compose up --build
+docker-compose up --build
 ```
+
 
 ## The application runs at http://localhost:3001 by default.
 
