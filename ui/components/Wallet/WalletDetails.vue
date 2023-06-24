@@ -9,7 +9,7 @@
           <div class="flex justify-between items-baseline mt-4">
             <div>
               <p class="text-gray-600">Balance:</p>
-              <p class="text-4xl font-bold text-purple-600">{{ animatedBalance }}</p>
+              <p class="text-4xl font-bold text-purple-600" id="walletBalance">{{ animatedBalance }}</p>
             </div>
 
             <p class="text-sm text-gray-600 self-end">Date: <span class="font-semibold">{{ formatDate(wallet.date)

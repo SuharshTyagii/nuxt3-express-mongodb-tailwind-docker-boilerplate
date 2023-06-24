@@ -28,6 +28,7 @@ docker compose up --build
 - Seperate containers for MongoDB server, backend, and UI.
 - Complete Documentation for the API via Swagger at `http://68.183.81.108:8082/api-docs/` or (http://localhost:8082/api-docs/) if running locally
 - Wallet is stored into localStorage when created.
+- Playwright tests initialised for the UI, to create a wallet. More scripts can be added later on.
 
 
 ## Non-docker based local setup:-

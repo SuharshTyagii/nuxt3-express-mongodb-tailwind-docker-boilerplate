@@ -4,6 +4,7 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
+    "e2e": "npx playwright test create-wallet.spec.ts",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
@@ -11,6 +12,7 @@
   "devDependencies": {
     "@nuxt/devtools": "latest",
     "@nuxtjs/tailwindcss": "^6.8.0",
+    "@playwright/test": "^1.35.1",
     "@types/node": "^18",
     "autoprefixer": "^10.4.14",
     "nuxt": "^3.5.2",
@@ -19,6 +21,7 @@
   },
   "dependencies": {
     "axios": "^1.4.0",
+    "chance": "^1.1.11",
     "cross-env": "^7.0.3",
     "mitt": "^3.0.0",
     "serve": "^14.2.0"

@@ -8,17 +8,17 @@
             <div class="flex flex-col">
               <label for="balance" class="text-gray-700 font-semibold mb-2">Balance</label>
               <div class="relative">
-                <input type="number" id="balance" v-model="balance" placeholder="Enter balance" max="9000000000000"
-                  @input="setFourNumDecimal" ref="balanceField" step="0.0001"
+                <input type="number" id="balanceInputField" v-model="balance" placeholder="Enter balance"
+                  max="9000000000000" @input="setFourNumDecimal" ref="balanceField" step="0.0001"
                   class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors" />
               </div>
             </div>
             <div class="flex flex-col">
               <label for="name" class="text-gray-700 font-semibold mb-2">Name</label>
-              <input type="text" id="name" v-model="name" placeholder="Enter name" ref="nameField"
+              <input type="text" id="walletName" v-model="name" placeholder="Enter name" ref="nameField"
                 class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors" />
             </div>
-            <button @click="createWallet"
+            <button @click="createWallet" id="createWalletButton"
               class="bg-purple-500 text-white justify-self-center mx-auto py-4 px-8 rounded-md font-semibold hover:bg-purple-800 transition-colors">
               Create Wallet
             </button>
@@ -42,7 +42,7 @@
                     class="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors" />
                 </div>
               </div>
-              <button @click="findwalletId"
+              <button @click="findwalletId" id="findWalletButton"
                 class="bg-purple-500 text-white justify-self-center mx-auto py-4 px-8 rounded-md font-semibold hover:bg-purple-800 transition-colors">
                 Find Wallet
               </button>
@@ -73,6 +73,7 @@ export default {
       userInputWalletId: null,
     };
   },
+
   methods: {
     async createWallet() {
       this.checkEmptyFields();
