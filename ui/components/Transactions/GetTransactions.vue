@@ -51,19 +51,19 @@
           <div v-for="transaction in transactions" :key="transaction.id"
             class=" shadow-xl rounded-lg overflow-hidden grid grid-cols-3 gap-4 px-6 py-4"
             :class="[transaction.type === 'DEBIT' ? 'bg-red-100' : 'bg-green-100']">
-            <div>
+            <div class="col-span-3">
               <h2 class="text-2xl font-semibold text-purple-700">
                 {{ transaction.amount }}
               </h2>
-              <p class="text-gray-600 mt-2 sm:text-base text-xs">
+              <p class="text-gray-600 mt-2 sm:text-base text-xs ">
                 {{ transaction.description }}
               </p>
             </div>
-            <div class="col-start-3 col-end-4 justify-self-end text-xs font-semibold text-gray-600"
+            <div class="col-start-4 col-end-5 justify-self-end text-xl font-semibold text-gray-600"
               :class="getTransactionTypeClass(transaction.type)">
               {{ transaction.type }}
             </div>
-            <div class="col-start-3 col-end-4 self-end text-xs text-gray-600">
+            <div class="col-start-4 col-end-5 self-end text-xs text-gray-600">
               {{ formatTime(transaction.date) }}
             </div>
           </div>
