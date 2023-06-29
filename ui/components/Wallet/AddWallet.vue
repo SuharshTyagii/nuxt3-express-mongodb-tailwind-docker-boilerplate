@@ -125,8 +125,6 @@ export default {
         this.$refs.nameField.classList.remove('highlight-field');
         return true;
       }
-
-
     },
     generateRandomWalletName() {
       const nouns = ['Money', 'Treasure', 'Vault', 'Bank'];

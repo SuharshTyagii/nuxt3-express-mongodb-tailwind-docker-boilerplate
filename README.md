@@ -58,7 +58,7 @@ And then opening up a command prompt window and run:-
 
 # Server
 Navigate to the server folder from the root directory.
-- /gohighlevel_assignment/server
+- /server
 
 Then:-
 ```bash

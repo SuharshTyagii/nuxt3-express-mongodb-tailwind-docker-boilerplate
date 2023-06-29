@@ -6,7 +6,7 @@ Before running the API, ensure you have the following:
 
 1.  Clone the repository:
 ```bash
-git clone https://github.com/SuharshTyagii/gohighlevel_assignment_suharsh.git
+git clone https://github.com/SuharshTyagii/nuxt3-express-mongodb-tailwind-docker-boilerplate.git
 ```
 
 2. Install the dependencies

@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   css: ["@/assets/css/styles.css"],
   app: {
     head: {
-      title: 'Wallet Assignment - HighLevel'
+      title: 'Wallet Assignment - Nuxt3 | TailwindCSS | MongoDB | Docker'
     }
   },
 

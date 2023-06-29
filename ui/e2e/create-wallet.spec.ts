@@ -12,7 +12,7 @@ test.describe('Creates a wallet', async () => {
     await page.goto('http://localhost:3001/');
   })
   test('Has title', async ({ page }) => {
-    await expect(page).toHaveTitle('Wallet Assignment - HighLevel');
+    await expect(page).toHaveTitle('Wallet Assignment');
   });
 
   test('Create a wallet', async ({ page }) => {

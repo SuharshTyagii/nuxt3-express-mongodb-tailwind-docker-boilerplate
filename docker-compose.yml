@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   mongo_db:
-    container_name: mongodb_container_highlevel
+    container_name: mongodb_container_wallet
     image: mongo:latest
     restart: always
     volumes:
@@ -10,7 +10,7 @@ services:
 
   # Server API
   api:
-    container_name: server_highlevel
+    container_name: server_wallet
     build:
       dockerfile: Dockerfile
       context: ./server
@@ -24,7 +24,7 @@ services:
       - mongo_db
   # UI
   ui:
-    container_name: ui_highlevel
+    container_name: ui_wallet
     build:
       args:
         API_BASE: "${API_BASE}"

@@ -1,7 +1,7 @@
 {
-  "name": "gohighlevel_server",
+  "name": "server",
   "version": "1.0.0",
-  "description": "Server code for gohighlevel assignment built with Express and MongoDB",
+  "description": "Server code for assignment built with Express and MongoDB",
   "main": "server.js",
   "scripts": {
     "start": "pm2 start server.js",
